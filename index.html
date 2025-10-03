@@ -5,193 +5,729 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Siddaram Goranal - Portfolio</title>
   <link rel="icon" type="image/png" href="logo.png">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #121212;
-      --text: #f5f5f5;
-      --accent: #16a085;
+      --bg: #0a0a0a;
+      --bg-card: #1a1a1a;
+      --text: #ffffff;
+      --text-secondary: #b0b0b0;
+      --accent: #00bcd4;
+      --accent-hover: #0097a7;
+      --gradient: linear-gradient(135deg, #00bcd4, #0097a7);
+      --shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
     }
     body.light {
-      --bg: #f7f7f7;
-      --text: #222;
+      --bg: #f8f9fa;
+      --bg-card: #ffffff;
+      --text: #2c3e50;
+      --text-secondary: #7f8c8d;
       --accent: #2980b9;
+      --accent-hover: #1c638e;
+      --gradient: linear-gradient(135deg, #2980b9, #1c638e);
+      --shadow: 0 10px 30px rgba(41, 128, 185, 0.2);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      margin: 0;
       font-family: 'Poppins', sans-serif;
       background: var(--bg);
       color: var(--text);
-      transition: background 0.3s, color 0.3s;
+      transition: all 0.4s ease;
+      overflow-x: hidden;
     }
 
+    /* Header */
     header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 15px 30px;
-      position: sticky; top: 0; background: var(--bg);
-      border-bottom: 1px solid #333;
-      z-index: 999;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 5%;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: all 0.3s ease;
     }
-    nav a { margin: 0 12px; text-decoration: none; color: var(--text); font-weight: 500; }
-    nav a:hover { color: var(--accent); }
-    .toggle-btn { cursor: pointer; background: var(--accent); color: #fff; padding: 5px 12px; border-radius: 6px; }
-
-    section { padding: 60px 20px; max-width: 1100px; margin: auto; }
-
-    /* HERO */
-    #hero { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
-    #hero img { max-width: 280px; border-radius: 50%; border: 4px solid var(--accent); }
-
-    /* SKILLS */
-    #skills .skill-grid { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
-    .skill { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; transition: transform 0.3s; }
-    .skill:hover { transform: scale(1.1); background: var(--accent); color: #fff; }
-
-    /* SLIDER (Projects/Certs) */
-    .slider { display: flex; overflow: hidden; }
-    .slide-track {
-      display: flex; animation: scroll 20s linear infinite;
+    body.light header {
+      background: rgba(248, 249, 250, 0.95);
     }
+
+    .header.scrolled {
+      padding: 1rem 5%;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+      transition: color 0.3s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+
+    nav a:hover::after,
+    nav a.active::after {
+      width: 100%;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--accent);
+    }
+
+    .toggle-btn {
+      background: var(--gradient);
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: 25px;
+      color: white;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toggle-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    /* Sections */
+    section {
+      padding: 6rem 5%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .section-title {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    /* Hero Section */
+    #hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-image {
+      flex: 1;
+      min-width: 300px;
+      text-align: center;
+    }
+
+    .hero-image img {
+      max-width: 350px;
+      width: 100%;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      background: var(--gradient) padding-box,
+                  linear-gradient(45deg, var(--accent), var(--accent-hover)) border-box;
+      animation: float 6s ease-in-out infinite;
+      box-shadow: var(--shadow);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--gradient);
+      color: white;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0, 188, 212, 0.4);
+    }
+
+    /* Skills Section */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      padding: 2rem 1rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                  var(--gradient) border-box;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow);
+    }
+
+    .skill-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    /* Projects & Certifications Slider */
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      padding: 2rem 0;
+    }
+
+    .slider-track {
+      display: flex;
+      gap: 2rem;
+      animation: scroll 30s linear infinite;
+    }
+
     .slide {
-      min-width: 250px; margin: 0 15px; background: rgba(255,255,255,0.05);
-      padding: 20px; border-radius: 12px; text-align: center;
+      min-width: 300px;
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                  var(--gradient) border-box;
     }
+
+    .slide:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
     @keyframes scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      100% { transform: translateX(calc(-300px * 4 - 2rem * 4)); }
     }
 
-    /* TIMELINE */
-    .timeline { position: relative; margin: 40px 0; padding-left: 20px; }
+    /* Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 3rem auto;
+    }
+
     .timeline::before {
-      content: ""; position: absolute; left: 10px; top: 0; bottom: 0;
-      width: 3px; background: var(--accent);
-    }
-    .timeline-item { margin-bottom: 30px; position: relative; padding-left: 30px; }
-    .timeline-item::before {
-      content: "•"; position: absolute; left: -2px; font-size: 24px; color: var(--accent);
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--gradient);
     }
 
-    /* CONTACT */
-    .contact-icons { display: flex; gap: 20px; justify-content: center; }
-    .contact-icons a {
-      font-size: 24px; color: var(--text);
-      transition: 0.3s; text-decoration: none;
+    .timeline-item {
+      margin: 3rem 0;
+      position: relative;
+      width: 50%;
+      padding: 2rem;
+      background: var(--bg-card);
+      border-radius: 15px;
+      box-shadow: var(--shadow);
     }
-    .contact-icons a:hover { color: var(--accent); }
 
-    footer { text-align: center; padding: 20px; border-top: 1px solid #333; font-size: 0.9rem; }
+    .timeline-item:nth-child(odd) {
+      left: 0;
+      transform: translateX(-20px);
+    }
+
+    .timeline-item:nth-child(even) {
+      left: 50%;
+      transform: translateX(20px);
+    }
+
+    .timeline-year {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .contact-card {
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+      background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                  var(--gradient) border-box;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .contact-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--bg-card);
+      padding: 3rem 5%;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .section-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-title {
+        font-size: 3rem;
+      }
+      
+      nav {
+        display: none;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        left: 0 !important;
+        transform: none !important;
+        margin: 2rem 0;
+      }
+      
+      .timeline::before {
+        left: 20px;
+      }
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h2>Siddaram</h2>
+<header id="header">
+  <div class="logo">Siddaram</div>
   <nav>
-    <a href="#hero">About</a>
+    <a href="#hero" class="active">About</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
     <a href="#certs">Certifications</a>
-    <a href="#journey">My Journey</a>
+    <a href="#journey">Journey</a>
     <a href="#contact">Contact</a>
   </nav>
-  <button class="toggle-btn" onclick="toggleTheme()">🌙</button>
+  <button class="toggle-btn" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i> Theme
+  </button>
 </header>
 
-<!-- HERO -->
+<!-- Hero Section -->
 <section id="hero">
-  <div>
-    <h1>Hi, I’m Siddaram 👋</h1>
-    <p>A passionate developer who loves building impactful solutions with Web, AI & Data.</p>
-    <a href="Siddaram_Resume.pdf" class="toggle-btn" download>Download Resume</a>
+  <div class="hero-content">
+    <h1 class="hero-title">Hi, I'm Siddaram 👋</h1>
+    <h2 class="hero-subtitle">Full Stack Developer & AI Enthusiast</h2>
+    <p class="hero-description">
+      A passionate developer who loves building impactful solutions with Web Development, 
+      Artificial Intelligence & Data Science. Currently pursuing Computer Science Engineering 
+      and exploring the endless possibilities of technology.
+    </p>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <a href="Siddaram_Resume.pdf" class="btn" download>
+        <i class="fas fa-download"></i> Download Resume
+      </a>
+      <a href="#contact" class="btn" style="background: transparent; border: 2px solid var(--accent);">
+        <i class="fas fa-envelope"></i> Get In Touch
+      </a>
+    </div>
   </div>
-  <div>
+  <div class="hero-image">
     <img src="siddaram-photo.jpg" alt="Siddaram Goranal">
   </div>
 </section>
 
-<!-- SKILLS -->
+<!-- Skills Section -->
 <section id="skills">
-  <h2>Skills</h2>
-  <div class="skill-grid">
-    <div class="skill">Python</div>
-    <div class="skill">C++</div>
-    <div class="skill">Java</div>
-    <div class="skill">HTML</div>
-    <div class="skill">CSS</div>
-    <div class="skill">JS</div>
-    <div class="skill">MySQL</div>
+  <h2 class="section-title">Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <i class="fab fa-python skill-icon"></i>
+      <h3>Python</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fas fa-code skill-icon"></i>
+      <h3>C++</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fab fa-java skill-icon"></i>
+      <h3>Java</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fab fa-html5 skill-icon"></i>
+      <h3>HTML5</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fab fa-css3-alt skill-icon"></i>
+      <h3>CSS3</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fab fa-js skill-icon"></i>
+      <h3>JavaScript</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fas fa-database skill-icon"></i>
+      <h3>MySQL</h3>
+    </div>
+    <div class="skill-card">
+      <i class="fab fa-git-alt skill-icon"></i>
+      <h3>Git</h3>
+    </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
+<!-- Projects Section -->
 <section id="projects">
-  <h2>Projects</h2>
-  <div class="slider">
-    <div class="slide-track">
-      <div class="slide">KBC Quiz Game</div>
-      <div class="slide">Hospital Management System</div>
-      <div class="slide">Netflix Recommender</div>
-      <div class="slide">Bus Ticket Booking</div>
-      <!-- repeat for infinite scroll -->
-      <div class="slide">KBC Quiz Game</div>
-      <div class="slide">Hospital Management System</div>
-      <div class="slide">Netflix Recommender</div>
-      <div class="slide">Bus Ticket Booking</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="slider-container">
+    <div class="slider-track">
+      <div class="slide">
+        <i class="fas fa-gamepad" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>KBC Quiz Game</h3>
+        <p>Interactive quiz game inspired by Kaun Banega Crorepati</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-hospital" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Hospital Management</h3>
+        <p>Comprehensive hospital management system</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-film" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Netflix Recommender</h3>
+        <p>AI-powered movie recommendation system</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-bus" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Bus Ticket Booking</h3>
+        <p>Online bus ticket reservation platform</p>
+      </div>
+      <!-- Duplicates for seamless loop -->
+      <div class="slide">
+        <i class="fas fa-gamepad" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>KBC Quiz Game</h3>
+        <p>Interactive quiz game inspired by Kaun Banega Crorepati</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-hospital" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Hospital Management</h3>
+        <p>Comprehensive hospital management system</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CERTIFICATIONS -->
+<!-- Certifications Section -->
 <section id="certs">
-  <h2>Certifications</h2>
-  <div class="slider">
-    <div class="slide-track" style="animation-direction: reverse;">
-      <div class="slide">Java Foundation – Infosys</div>
-      <div class="slide">MongoDB Java Dev – MongoDB</div>
-      <div class="slide">Generative AI – Microsoft</div>
-      <div class="slide">Software Estimation – Techademy</div>
-      <div class="slide">Microsoft Fabric Workshop</div>
-      <!-- repeat -->
-      <div class="slide">Java Foundation – Infosys</div>
-      <div class="slide">MongoDB Java Dev – MongoDB</div>
-      <div class="slide">Generative AI – Microsoft</div>
-      <div class="slide">Software Estimation – Techademy</div>
-      <div class="slide">Microsoft Fabric Workshop</div>
+  <h2 class="section-title">Certifications</h2>
+  <div class="slider-container">
+    <div class="slider-track" style="animation-direction: reverse;">
+      <div class="slide">
+        <i class="fab fa-java" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Java Foundation</h3>
+        <p>Infosys Springboard</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-database" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>MongoDB Java Dev</h3>
+        <p>MongoDB University</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-robot" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Generative AI</h3>
+        <p>Microsoft Learn</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Software Estimation</h3>
+        <p>Techademy</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-cloud" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Microsoft Fabric</h3>
+        <p>Microsoft Workshop</p>
+      </div>
+      <!-- Duplicates for seamless loop -->
+      <div class="slide">
+        <i class="fab fa-java" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>Java Foundation</h3>
+        <p>Infosys Springboard</p>
+      </div>
+      <div class="slide">
+        <i class="fas fa-database" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
+        <h3>MongoDB Java Dev</h3>
+        <p>MongoDB University</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- JOURNEY -->
+<!-- Journey Section -->
 <section id="journey">
-  <h2>My Journey</h2>
+  <h2 class="section-title">My Journey</h2>
   <div class="timeline">
-    <div class="timeline-item"><b>2022</b> – Started B.E in Computer Science</div>
-    <div class="timeline-item"><b>2023</b> – Built first projects (KBC Game, HMS)</div>
-    <div class="timeline-item"><b>2024</b> – Won Hackathon, Published Research</div>
-    <div class="timeline-item"><b>2025</b> – Internships & Portfolio Launch</div>
+    <div class="timeline-item">
+      <div class="timeline-year">2022</div>
+      <h3>Started Engineering Journey</h3>
+      <p>Began B.E in Computer Science at Nitte Meenakshi Institute of Technology</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2023</div>
+      <h3>First Projects & Learning</h3>
+      <p>Built KBC Quiz Game and Hospital Management System. Explored web development fundamentals.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
+      <h3>Hackathons & Research</h3>
+      <p>Won Adobe Hackathon, published research paper, and dived into AI/ML technologies.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">2025</div>
+      <h3>Professional Growth</h3>
+      <p>Internships, advanced certifications, and portfolio development. Ready for industry challenges.</p>
+    </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- Contact Section -->
 <section id="contact">
-  <h2>Contact</h2>
-  <div class="contact-icons">
-    <a href="mailto:siddugoranal540@gmail.com">📧</a>
-    <a href="https://github.com/siddaram2k25" target="_blank">💻</a>
-    <a href="https://linkedin.com/in/siddaram-mallikarjun-goranal-7321182b9" target="_blank">🔗</a>
+  <h2 class="section-title">Get In Touch</h2>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <i class="fas fa-envelope contact-icon"></i>
+      <h3>Email</h3>
+      <p>siddugoranal540@gmail.com</p>
+      <a href="mailto:siddugoranal540@gmail.com" class="btn" style="margin-top: 1rem;">Send Email</a>
+    </div>
+    <div class="contact-card">
+      <i class="fab fa-github contact-icon"></i>
+      <h3>GitHub</h3>
+      <p>@siddaram2k25</p>
+      <a href="https://github.com/siddaram2k25" target="_blank" class="btn" style="margin-top: 1rem;">View Profile</a>
+    </div>
+    <div class="contact-card">
+      <i class="fab fa-linkedin contact-icon"></i>
+      <h3>LinkedIn</h3>
+      <p>Siddaram Goranal</p>
+      <a href="https://linkedin.com/in/siddaram-mallikarjun-goranal-7321182b9" target="_blank" class="btn" style="margin-top: 1rem;">Connect</a>
+    </div>
   </div>
 </section>
 
 <footer>
-  <p>© 2025 Siddaram Goranal. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="#hero">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#certs">Certifications</a>
+    <a href="#journey">Journey</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <p>© 2025 Siddaram Goranal. Crafted with ❤️ and ☕</p>
+  <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+    Always learning, always building, always growing.
+  </p>
 </footer>
 
 <script>
+  // Theme Toggle
   function toggleTheme() {
     document.body.classList.toggle('light');
+    const btn = document.querySelector('.toggle-btn');
+    const icon = btn.querySelector('i');
+    if (document.body.classList.contains('light')) {
+      icon.className = 'fas fa-sun';
+      btn.innerHTML = '<i class="fas fa-sun"></i> Theme';
+    } else {
+      icon.className = 'fas fa-moon';
+      btn.innerHTML = '<i class="fas fa-moon"></i> Theme';
+    }
   }
+
+  // Header Scroll Effect
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    if (window.scrollY > 100) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // Smooth Scrolling
+  document.querySelectorAll('nav a').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const targetSection = document.querySelector(targetId);
+      targetSection.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  // Active Navigation
+  window.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav a');
+    
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      const sectionHeight = section.clientHeight;
+      if (scrollY >= sectionTop - 200) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${current}`) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Add loading animation
+  document.addEventListener('DOMContentLoaded', () => {
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => {
+      document.body.style.opacity = '1';
+    }, 100);
+  });
 </script>
 
 </body>
