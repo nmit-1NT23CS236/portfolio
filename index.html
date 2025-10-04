@@ -471,12 +471,27 @@
       #hero {
         display: grid;
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.6rem;
         align-items: center;
+      }
+
+      /* Ensure both content and image occupy the single column */
+      .hero-content,
+      .hero-image {
+        grid-column: 1 / -1;
+      }
+
+      .hero-image {
+        justify-content: center;
+        padding-top: 0.6rem;
       }
 
       .hero-image img {
         max-width: 240px;
+        width: auto;
+        height: auto;
+        display: block;
+        margin: 0 auto;
       }
       /* reduce the header offset on small screens */
       :root {
