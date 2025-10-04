@@ -18,6 +18,8 @@
       --accent-hover: #0097a7;
       --gradient: linear-gradient(135deg, #00bcd4, #0097a7);
       --shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
+      /* space to offset fixed header so sections don't sit underneath it */
+      --header-space: 6rem;
     }
     body.light {
       --bg: #f8f9fa;
@@ -130,19 +132,19 @@
       box-shadow: var(--shadow);
     }
 
-    /* Sections */
+    /* Sections - reduced vertical padding so sections sit closer together */
     section {
-      padding: 6rem 5%;
-      min-height: 100vh;
+      padding: 4rem 5%;
+      min-height: auto; /* let content determine height except for hero */
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     .section-title {
-      font-size: 3rem;
+      font-size: 2.4rem;
       text-align: center;
-      margin-bottom: 3rem;
+      margin-bottom: 1.6rem;
       position: relative;
     }
 
@@ -159,34 +161,42 @@
     }
 
     /* Hero Section */
+    
+
+    /* Use grid for a stable two-column layout: content | image */
     #hero {
-      display: flex;
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) 360px; /* left column will not shrink below 320px */
       align-items: center;
-      justify-content: space-between;
-      gap: 4rem;
-      flex-wrap: wrap;
+      gap: 3.2rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto; /* center the hero block */
+      box-sizing: border-box;
+      min-height: 80vh; /* keep hero tall but reduce other sections */
+      padding-top: var(--header-space); /* account for fixed header */
     }
 
     .hero-content {
-      flex: 1;
-      min-width: 300px;
+      grid-column: 1 / 2;
+      padding-right: 1rem;
     }
 
     .hero-title {
-      font-size: 4rem;
+      font-size: 3.6rem;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       background: var(--gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      line-height: 1.1;
+      line-height: 1.05;
     }
 
     .hero-subtitle {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: var(--text-secondary);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .hero-description {
@@ -197,25 +207,28 @@
     }
 
     .hero-image {
-      flex: 1;
-      min-width: 300px;
+      grid-column: 2 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
     }
 
     .hero-image img {
-      max-width: 350px;
+      max-width: 320px;
       width: 100%;
       border-radius: 50%;
-      border: 4px solid transparent;
+      border: 3px solid transparent;
       background: var(--gradient) padding-box,
                   linear-gradient(45deg, var(--accent), var(--accent-hover)) border-box;
       animation: float 6s ease-in-out infinite;
-      box-shadow: var(--shadow);
+      /* slightly reduce shadow so it doesn't visually overlap the header */
+      box-shadow: 0 12px 24px rgba(0, 188, 212, 0.22);
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-20px); }
+      50% { transform: translateY(-10px); }
     }
 
     .btn {
@@ -242,15 +255,17 @@
     /* Skills Section */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      /* increase the min size so skill cards appear larger */
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 2rem;
+      margin-top: 1.6rem;
     }
 
     .skill-card {
       background: var(--bg-card);
-      padding: 2rem 1rem;
-      border-radius: 15px;
+      /* larger card footprint */
+      padding: 3rem 1.8rem;
+      border-radius: 18px;
       text-align: center;
       transition: all 0.3s ease;
       border: 1px solid transparent;
@@ -283,10 +298,11 @@
     }
 
     .slide {
-      min-width: 300px;
+      /* make slider cards wider and more padded */
+      min-width: 420px;
       background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 15px;
+      padding: 2.6rem;
+      border-radius: 18px;
       text-align: center;
       transition: all 0.3s ease;
       border: 1px solid transparent;
@@ -301,14 +317,18 @@
 
     @keyframes scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(calc(-300px * 4 - 2rem * 4)); }
+      /* scroll distance = slide width * number_of_slides + gap * number_of_gaps */
+      100% { transform: translateX(calc(-420px * 4 - 2rem * 4)); }
     }
 
     /* Timeline */
     .timeline {
       position: relative;
-      max-width: 800px;
-      margin: 3rem auto;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 2rem; /* keep some horizontal breathing room */
+      box-sizing: border-box;
+      overflow: visible;
     }
 
     .timeline::before {
@@ -320,26 +340,44 @@
       bottom: 0;
       width: 3px;
       background: var(--gradient);
+      /* bring the line above cards so it stays visually continuous */
+      z-index: 3;
+      box-shadow: 0 0 18px rgba(0,188,212,0.12);
     }
 
     .timeline-item {
-      margin: 3rem 0;
+      margin: 2rem 0;
       position: relative;
-      width: 50%;
-      padding: 2rem;
+      /* consistent shape for all timeline cards */
+      width: calc(50% - 48px);
+      min-height: 120px;
+      padding: 1.8rem;
       background: var(--bg-card);
-      border-radius: 15px;
-      box-shadow: var(--shadow);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      z-index: 1; /* stay below the center line */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .timeline-item:nth-child(odd) {
       left: 0;
-      transform: translateX(-20px);
     }
 
     .timeline-item:nth-child(even) {
-      left: 50%;
-      transform: translateX(20px);
+      /* place even items starting a little past the center line so they don't overlap it */
+      left: calc(50% + 48px);
+    }
+
+    /* Responsive: stack timeline items on narrow viewports */
+    @media (max-width: 900px) {
+      .timeline::before { left: 8px; transform: none; }
+      .timeline-item, .timeline-item:nth-child(even) {
+        left: 0 !important;
+        width: 100%;
+        margin-left: 36px; /* indent from the left line */
+      }
     }
 
     .timeline-year {
@@ -352,15 +390,16 @@
     /* Contact */
     .contact-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      /* larger contact cards so buttons and text have more room */
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
       gap: 2rem;
-      margin-top: 2rem;
+      margin-top: 1.6rem;
     }
 
     .contact-card {
       background: var(--bg-card);
-      padding: 2rem;
-      border-radius: 15px;
+      padding: 2.8rem;
+      border-radius: 18px;
       text-align: center;
       transition: all 0.3s ease;
       border: 1px solid transparent;
@@ -428,6 +467,24 @@
       .timeline::before {
         left: 20px;
       }
+      /* Stack hero content on small screens */
+      #hero {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        align-items: center;
+      }
+
+      .hero-image img {
+        max-width: 240px;
+      }
+      /* reduce the header offset on small screens */
+      :root {
+        --header-space: 4.2rem;
+      }
+      header {
+        z-index: 1100; /* ensure header stays above hero image glow */
+      }
     }
   </style>
 </head>
@@ -451,14 +508,14 @@
 <!-- Hero Section -->
 <section id="hero">
   <div class="hero-content">
-    <h1 class="hero-title">Hi, I'm Siddaram 👋</h1>
+    <h1 class="hero-title">Hi, I'm Siddaram </h1>
     <h2 class="hero-subtitle">Full Stack Developer & AI Enthusiast</h2>
     <p class="hero-description">
-      A passionate developer who loves building impactful solutions with Web Development, 
-      Artificial Intelligence & Data Science. Currently pursuing Computer Science Engineering 
-      and exploring the endless possibilities of technology.
+      Software Engineer with expertise in Web Development, Artificial Intelligence, and Data Science. 
+      Skilled in designing and delivering scalable, high-performance solutions that drive business impact. 
+      Experienced in leveraging modern technologies to build robust applications, optimize data workflows, and implement intelligent systems.
     </p>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: flex-start;">
       <a href="Siddaram_Resume.pdf" class="btn" download>
         <i class="fas fa-download"></i> Download Resume
       </a>
@@ -467,11 +524,11 @@
       </a>
     </div>
   </div>
+
   <div class="hero-image">
     <img src="siddaram-photo.jpg" alt="Siddaram Goranal">
   </div>
 </section>
-
 <!-- Skills Section -->
 <section id="skills">
   <h2 class="section-title">Skills</h2>
@@ -601,24 +658,26 @@
   <h2 class="section-title">My Journey</h2>
   <div class="timeline">
     <div class="timeline-item">
-      <div class="timeline-year">2022</div>
+      <div class="timeline-year">2023</div>
       <h3>Started Engineering Journey</h3>
       <p>Began B.E in Computer Science at Nitte Meenakshi Institute of Technology</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2023</div>
-      <h3>First Projects & Learning</h3>
-      <p>Built KBC Quiz Game and Hospital Management System. Explored web development fundamentals.</p>
+      <p>Gained foundational knowledge in programming and software development.</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-year">2024</div>
+      <h3>First Projects & Learning</h3>
+      <p>Built KBC Quiz Game and Hospital Management System. Explored web development fundamentals.</p>
+      <p>Joined IEEE and participated in various technical workshops.</p>
+</div>
+    <div class="timeline-item">
+      <div class="timeline-year">2024</div>
       <h3>Hackathons & Research</h3>
-      <p>Won Adobe Hackathon, published research paper, and dived into AI/ML technologies.</p>
+      <p>Won OSCODE CHAMPIONSHIP TITLE ,ODOO Hackathon finalist and dived into AI/ML technologies.</p>
     </div>
     <div class="timeline-item">
       <div class="timeline-year">2025</div>
       <h3>Professional Growth</h3>
-      <p>Internships, advanced certifications, and portfolio development. Ready for industry challenges.</p>
+      <p>Internships, advanced certifications, and contributing to open source projects.</p>
     </div>
   </div>
 </section>
@@ -728,6 +787,22 @@
       document.body.style.opacity = '1';
     }, 100);
   });
+
+  // Ensure hero is positioned below the fixed header by setting --header-space dynamically
+  function syncHeaderSpace() {
+    const header = document.getElementById('header');
+    if (!header) return;
+    const height = header.getBoundingClientRect().height;
+  // Add a larger extra gap to account for the image float so it can't reach the header
+  const extra = 28;
+    document.documentElement.style.setProperty('--header-space', `${height + extra}px`);
+  }
+
+  // Run on load and resize
+  window.addEventListener('load', syncHeaderSpace);
+  window.addEventListener('resize', syncHeaderSpace);
+  // Run once after DOM ready
+  document.addEventListener('DOMContentLoaded', syncHeaderSpace);
 </script>
 
 </body>
