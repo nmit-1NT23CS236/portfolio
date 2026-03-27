@@ -13,7 +13,7 @@ It showcases my:
 
 ## 🔗 Live Website
 
-👉 [View Portfolio](https://siddaram2k25.github.io/portfolio/)
+👉 [View Portfolio](https://nmit-1nt23cs236.github.io/portfolio/)
 
 ---
 
