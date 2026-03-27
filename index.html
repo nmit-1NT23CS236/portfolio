@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Siddaram Goranal - Portfolio</title>
+  <title>Siddaram Goranal - Interactive Portfolio</title>
   <link rel="icon" type="image/png" href="logo.png">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,8 +18,8 @@
       --accent-hover: #0097a7;
       --gradient: linear-gradient(135deg, #00bcd4, #0097a7);
       --shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
-      /* space to offset fixed header so sections don't sit underneath it */
       --header-space: 6rem;
+      --card-glow: 0 0 20px rgba(0, 188, 212, 0.3);
     }
     body.light {
       --bg: #f8f9fa;
@@ -30,6 +30,7 @@
       --accent-hover: #1c638e;
       --gradient: linear-gradient(135deg, #2980b9, #1c638e);
       --shadow: 0 10px 30px rgba(41, 128, 185, 0.2);
+      --card-glow: 0 0 20px rgba(41, 128, 185, 0.2);
     }
 
     * {
@@ -132,10 +133,9 @@
       box-shadow: var(--shadow);
     }
 
-    /* Sections - reduced vertical padding so sections sit closer together */
     section {
       padding: 4rem 5%;
-      min-height: auto; /* let content determine height except for hero */
+      min-height: auto;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -161,20 +161,17 @@
     }
 
     /* Hero Section */
-    
-
-    /* Use grid for a stable two-column layout: content | image */
     #hero {
       display: grid;
-      grid-template-columns: minmax(320px, 1fr) 360px; /* left column will not shrink below 320px */
+      grid-template-columns: minmax(320px, 1fr) 360px;
       align-items: center;
       gap: 3.2rem;
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto; /* center the hero block */
+      margin: 0 auto;
       box-sizing: border-box;
-      min-height: 80vh; /* keep hero tall but reduce other sections */
-      padding-top: var(--header-space); /* account for fixed header */
+      min-height: 80vh;
+      padding-top: var(--header-space);
     }
 
     .hero-content {
@@ -206,14 +203,6 @@
       color: var(--text-secondary);
     }
 
-    .hero-image {
-      grid-column: 2 / 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
     .hero-image img {
       max-width: 320px;
       width: 100%;
@@ -222,7 +211,6 @@
       background: var(--gradient) padding-box,
                   linear-gradient(45deg, var(--accent), var(--accent-hover)) border-box;
       animation: float 6s ease-in-out infinite;
-      /* slightly reduce shadow so it doesn't visually overlap the header */
       box-shadow: 0 12px 24px rgba(0, 188, 212, 0.22);
     }
 
@@ -252,10 +240,118 @@
       box-shadow: 0 15px 30px rgba(0, 188, 212, 0.4);
     }
 
-    /* Skills Section */
+    /* Enhanced Project Cards Grid - Replacing Slider */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      background: var(--bg-card);
+      border-radius: 24px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(0, 188, 212, 0.2);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      color: var(--text);
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 188, 212, 0.1), transparent);
+      transition: left 0.6s ease;
+      z-index: 0;
+    }
+
+    .project-card:hover::before {
+      left: 100%;
+    }
+
+    .project-card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: var(--shadow), var(--card-glow);
+      border-color: var(--accent);
+    }
+
+    .project-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.2rem;
+      color: var(--accent);
+      display: inline-block;
+      transition: transform 0.3s ease;
+    }
+
+    .project-card:hover .project-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .project-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+    }
+
+    .project-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .tech-badge {
+      background: rgba(0, 188, 212, 0.15);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover .tech-badge {
+      background: rgba(0, 188, 212, 0.3);
+    }
+
+    .card-link-hint {
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .project-card:hover .card-link-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Skills Grid */
     .skills-grid {
       display: grid;
-      /* increase the min size so skill cards appear larger */
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 2rem;
       margin-top: 1.6rem;
@@ -263,7 +359,6 @@
 
     .skill-card {
       background: var(--bg-card);
-      /* larger card footprint */
       padding: 3rem 1.8rem;
       border-radius: 18px;
       text-align: center;
@@ -284,7 +379,7 @@
       color: var(--accent);
     }
 
-    /* Projects & Certifications Slider */
+    /* Certifications Slider (Enhanced) */
     .slider-container {
       position: relative;
       overflow: hidden;
@@ -294,31 +389,33 @@
     .slider-track {
       display: flex;
       gap: 2rem;
-      animation: scroll 30s linear infinite;
+      animation: scroll 35s linear infinite;
+    }
+
+    .slider-track:hover {
+      animation-play-state: paused;
     }
 
     .slide {
-      /* make slider cards wider and more padded */
-      min-width: 420px;
+      min-width: 380px;
       background: var(--bg-card);
-      padding: 2.6rem;
+      padding: 2rem;
       border-radius: 18px;
       text-align: center;
       transition: all 0.3s ease;
-      border: 1px solid transparent;
-      background: linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
-                  var(--gradient) border-box;
+      border: 1px solid rgba(0, 188, 212, 0.2);
+      cursor: pointer;
     }
 
     .slide:hover {
       transform: translateY(-5px);
       box-shadow: var(--shadow);
+      border-color: var(--accent);
     }
 
     @keyframes scroll {
       0% { transform: translateX(0); }
-      /* scroll distance = slide width * number_of_slides + gap * number_of_gaps */
-      100% { transform: translateX(calc(-420px * 4 - 2rem * 4)); }
+      100% { transform: translateX(calc(-380px * 5 - 2rem * 5)); }
     }
 
     /* Timeline */
@@ -326,7 +423,7 @@
       position: relative;
       max-width: 1000px;
       margin: 2rem auto;
-      padding: 0 2rem; /* keep some horizontal breathing room */
+      padding: 0 2rem;
       box-sizing: border-box;
       overflow: visible;
     }
@@ -340,7 +437,6 @@
       bottom: 0;
       width: 3px;
       background: var(--gradient);
-      /* bring the line above cards so it stays visually continuous */
       z-index: 3;
       box-shadow: 0 0 18px rgba(0,188,212,0.12);
     }
@@ -348,14 +444,13 @@
     .timeline-item {
       margin: 2rem 0;
       position: relative;
-      /* consistent shape for all timeline cards */
       width: calc(50% - 48px);
       min-height: 120px;
       padding: 1.8rem;
       background: var(--bg-card);
       border-radius: 12px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.45);
-      z-index: 1; /* stay below the center line */
+      z-index: 1;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -366,17 +461,15 @@
     }
 
     .timeline-item:nth-child(even) {
-      /* place even items starting a little past the center line so they don't overlap it */
       left: calc(50% + 48px);
     }
 
-    /* Responsive: stack timeline items on narrow viewports */
     @media (max-width: 900px) {
       .timeline::before { left: 8px; transform: none; }
       .timeline-item, .timeline-item:nth-child(even) {
         left: 0 !important;
         width: 100%;
-        margin-left: 36px; /* indent from the left line */
+        margin-left: 36px;
       }
     }
 
@@ -387,10 +480,9 @@
       margin-bottom: 0.5rem;
     }
 
-    /* Contact */
+    /* Contact Grid */
     .contact-grid {
       display: grid;
-      /* larger contact cards so buttons and text have more room */
       grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
       gap: 2rem;
       margin-top: 1.6rem;
@@ -418,7 +510,6 @@
       color: var(--accent);
     }
 
-    /* Footer */
     footer {
       background: var(--bg-card);
       padding: 3rem 5%;
@@ -443,63 +534,41 @@
       color: var(--accent);
     }
 
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--gradient);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      z-index: 1100;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+
+    .toast.show {
+      transform: translateX(0);
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
-      .section-title {
-        font-size: 2.5rem;
-      }
-      
-      .hero-title {
-        font-size: 3rem;
-      }
-      
-      nav {
-        display: none;
-      }
-      
-      .timeline-item {
-        width: 100%;
-        left: 0 !important;
-        transform: none !important;
-        margin: 2rem 0;
-      }
-      
-      .timeline::before {
-        left: 20px;
-      }
-      /* Stack hero content on small screens */
+      .section-title { font-size: 2rem; }
+      .hero-title { font-size: 2.5rem; }
+      nav { display: none; }
       #hero {
-        display: grid;
         grid-template-columns: 1fr;
         gap: 1.6rem;
-        align-items: center;
       }
-
-      /* Ensure both content and image occupy the single column */
-      .hero-content,
-      .hero-image {
-        grid-column: 1 / -1;
-      }
-
-      .hero-image {
-        justify-content: center;
-        padding-top: 0.6rem;
-      }
-
-      .hero-image img {
-        max-width: 240px;
-        width: auto;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-      }
-      /* reduce the header offset on small screens */
-      :root {
-        --header-space: 4.2rem;
-      }
-      header {
-        z-index: 1100; /* ensure header stays above hero image glow */
-      }
+      .hero-content, .hero-image { grid-column: 1 / -1; }
+      .hero-image img { max-width: 200px; margin: 0 auto; }
+      :root { --header-space: 4.2rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .slide { min-width: 280px; }
     }
   </style>
 </head>
@@ -523,7 +592,7 @@
 <!-- Hero Section -->
 <section id="hero">
   <div class="hero-content">
-    <h1 class="hero-title">Hi, I'm Siddaram </h1>
+    <h1 class="hero-title">Hi, I'm Siddaram 👋</h1>
     <h2 class="hero-subtitle">Full Stack Developer & AI Enthusiast</h2>
     <p class="hero-description">
       Software Engineer with expertise in Web Development, Artificial Intelligence, and Data Science. 
@@ -539,87 +608,83 @@
       </a>
     </div>
   </div>
-
   <div class="hero-image">
-    <img src="siddaram-photo.jpg" alt="Siddaram Goranal">
+    <img src="siddaram-photo.jpg" alt="Siddaram Goranal" onerror="this.src='https://via.placeholder.com/320x320?text=Siddaram'">
   </div>
 </section>
+
 <!-- Skills Section -->
 <section id="skills">
   <h2 class="section-title">Skills</h2>
   <div class="skills-grid">
-    <div class="skill-card">
-      <i class="fab fa-python skill-icon"></i>
-      <h3>Python</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fas fa-code skill-icon"></i>
-      <h3>C++</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fab fa-java skill-icon"></i>
-      <h3>Java</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fab fa-html5 skill-icon"></i>
-      <h3>HTML5</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fab fa-css3-alt skill-icon"></i>
-      <h3>CSS3</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fab fa-js skill-icon"></i>
-      <h3>JavaScript</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fas fa-database skill-icon"></i>
-      <h3>MySQL</h3>
-    </div>
-    <div class="skill-card">
-      <i class="fab fa-git-alt skill-icon"></i>
-      <h3>Git</h3>
-    </div>
+    <div class="skill-card"><i class="fab fa-python skill-icon"></i><h3>Python</h3></div>
+    <div class="skill-card"><i class="fas fa-code skill-icon"></i><h3>C++</h3></div>
+    <div class="skill-card"><i class="fab fa-java skill-icon"></i><h3>Java</h3></div>
+    <div class="skill-card"><i class="fab fa-html5 skill-icon"></i><h3>HTML5</h3></div>
+    <div class="skill-card"><i class="fab fa-css3-alt skill-icon"></i><h3>CSS3</h3></div>
+    <div class="skill-card"><i class="fab fa-js skill-icon"></i><h3>JavaScript</h3></div>
+    <div class="skill-card"><i class="fas fa-database skill-icon"></i><h3>MySQL</h3></div>
+    <div class="skill-card"><i class="fab fa-git-alt skill-icon"></i><h3>Git</h3></div>
   </div>
 </section>
 
-<!-- Projects Section -->
+<!-- Enhanced Projects Section - Interactive Cards with Links -->
 <section id="projects">
-  <h2 class="section-title">Projects</h2>
-  <div class="slider-container">
-    <div class="slider-track">
-      <div class="slide">
-        <i class="fas fa-gamepad" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>KBC Quiz Game</h3>
-        <p>Interactive quiz game inspired by Kaun Banega Crorepati</p>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid" id="projectsGrid">
+    <!-- Project 1: KBC Quiz Game -->
+    <a href="https://github.com/nmit-1NT23CS236/kbc-quiz-game" target="_blank" class="project-card" data-project="kbc">
+      <i class="fas fa-gamepad project-icon"></i>
+      <h3>🎮 KBC Quiz Game</h3>
+      <p>Interactive quiz game inspired by Kaun Banega Crorepati with lifelines and score tracking. Built with JavaScript and dynamic UI.</p>
+      <div class="project-tech">
+        <span class="tech-badge">JavaScript</span>
+        <span class="tech-badge">HTML/CSS</span>
+        <span class="tech-badge">LocalStorage</span>
       </div>
-      <div class="slide">
-        <i class="fas fa-hospital" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Hospital Management</h3>
-        <p>Comprehensive hospital management system</p>
+      <div class="card-link-hint"><i class="fas fa-external-link-alt"></i> View on GitHub →</div>
+    </a>
+
+    <!-- Project 2: Hospital Management System -->
+    <a href="https://github.com/nmit-1NT23CS236/hospital-management" target="_blank" class="project-card" data-project="hospital">
+      <i class="fas fa-hospital project-icon"></i>
+      <h3>🏥 Hospital Management</h3>
+      <p>Comprehensive hospital management system with patient records, appointment scheduling, and billing modules.</p>
+      <div class="project-tech">
+        <span class="tech-badge">Python/Django</span>
+        <span class="tech-badge">SQLite</span>
+        <span class="tech-badge">Bootstrap</span>
       </div>
-      <div class="slide">
-        <i class="fas fa-film" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Netflix Recommender</h3>
-        <p>AI-powered movie recommendation system</p>
+      <div class="card-link-hint"><i class="fas fa-external-link-alt"></i> View on GitHub →</div>
+    </a>
+
+    <!-- Project 3: Netflix Recommender System -->
+    <a href="https://github.com/nmit-1NT23CS236/netflix-recommender" target="_blank" class="project-card" data-project="netflix">
+      <i class="fas fa-film project-icon"></i>
+      <h3>🎬 Netflix Recommender</h3>
+      <p>AI-powered movie recommendation system using collaborative filtering and content-based algorithms.</p>
+      <div class="project-tech">
+        <span class="tech-badge">Python</span>
+        <span class="tech-badge">Scikit-learn</span>
+        <span class="tech-badge">Pandas</span>
+        <span class="tech-badge">Flask</span>
       </div>
-      <div class="slide">
-        <i class="fas fa-bus" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Bus Ticket Booking</h3>
-        <p>Online bus ticket reservation platform</p>
+      <div class="card-link-hint"><i class="fas fa-external-link-alt"></i> View on GitHub →</div>
+    </a>
+
+    <!-- Project 4: Bus Ticket Booking Platform -->
+    <a href="https://github.com/nmit-1NT23CS236/bus-booking" target="_blank" class="project-card" data-project="bus">
+      <i class="fas fa-bus project-icon"></i>
+      <h3>🚌 Bus Ticket Booking</h3>
+      <p>Online bus reservation platform with real-time seat selection, payment integration, and booking history.</p>
+      <div class="project-tech">
+        <span class="tech-badge">MERN Stack</span>
+        <span class="tech-badge">MongoDB</span>
+        <span class="tech-badge">Express.js</span>
+        <span class="tech-badge">React</span>
       </div>
-      <!-- Duplicates for seamless loop -->
-      <div class="slide">
-        <i class="fas fa-gamepad" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>KBC Quiz Game</h3>
-        <p>Interactive quiz game inspired by Kaun Banega Crorepati</p>
-      </div>
-      <div class="slide">
-        <i class="fas fa-hospital" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Hospital Management</h3>
-        <p>Comprehensive hospital management system</p>
-      </div>
-    </div>
+      <div class="card-link-hint"><i class="fas fa-external-link-alt"></i> View Live Demo →</div>
+    </a>
   </div>
 </section>
 
@@ -628,42 +693,12 @@
   <h2 class="section-title">Certifications</h2>
   <div class="slider-container">
     <div class="slider-track" style="animation-direction: reverse;">
-      <div class="slide">
-        <i class="fab fa-java" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Java Foundation</h3>
-        <p>Infosys Springboard</p>
-      </div>
-      <div class="slide">
-        <i class="fas fa-database" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>MongoDB Java Dev</h3>
-        <p>MongoDB University</p>
-      </div>
-      <div class="slide">
-        <i class="fas fa-robot" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Generative AI</h3>
-        <p>Microsoft Learn</p>
-      </div>
-      <div class="slide">
-        <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Software Estimation</h3>
-        <p>Techademy</p>
-      </div>
-      <div class="slide">
-        <i class="fas fa-cloud" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Microsoft Fabric</h3>
-        <p>Microsoft Workshop</p>
-      </div>
-      <!-- Duplicates for seamless loop -->
-      <div class="slide">
-        <i class="fab fa-java" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>Java Foundation</h3>
-        <p>Infosys Springboard</p>
-      </div>
-      <div class="slide">
-        <i class="fas fa-database" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-        <h3>MongoDB Java Dev</h3>
-        <p>MongoDB University</p>
-      </div>
+      <div class="slide"><i class="fab fa-java" style="font-size: 2rem; color: var(--accent);"></i><h3>Java Foundation</h3><p>Infosys Springboard</p></div>
+      <div class="slide"><i class="fas fa-database" style="font-size: 2rem; color: var(--accent);"></i><h3>MongoDB Java Dev</h3><p>MongoDB University</p></div>
+      <div class="slide"><i class="fas fa-robot" style="font-size: 2rem; color: var(--accent);"></i><h3>Generative AI</h3><p>Microsoft Learn</p></div>
+      <div class="slide"><i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent);"></i><h3>Software Estimation</h3><p>Techademy</p></div>
+      <div class="slide"><i class="fas fa-cloud" style="font-size: 2rem; color: var(--accent);"></i><h3>Microsoft Fabric</h3><p>Microsoft Workshop</p></div>
+      <div class="slide"><i class="fab fa-java" style="font-size: 2rem; color: var(--accent);"></i><h3>Java Foundation</h3><p>Infosys Springboard</p></div>
     </div>
   </div>
 </section>
@@ -672,28 +707,10 @@
 <section id="journey">
   <h2 class="section-title">My Journey</h2>
   <div class="timeline">
-    <div class="timeline-item">
-      <div class="timeline-year">2023</div>
-      <h3>Started Engineering Journey</h3>
-      <p>Began B.E in Computer Science at Nitte Meenakshi Institute of Technology</p>
-      <p>Gained foundational knowledge in programming and software development.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2024</div>
-      <h3>First Projects & Learning</h3>
-      <p>Built KBC Quiz Game and Hospital Management System. Explored web development fundamentals.</p>
-      <p>Joined IEEE and participated in various technical workshops.</p>
-</div>
-    <div class="timeline-item">
-      <div class="timeline-year">2024</div>
-      <h3>Hackathons & Research</h3>
-      <p>Won OSCODE CHAMPIONSHIP TITLE ,ODOO Hackathon finalist and dived into AI/ML technologies.</p>
-    </div>
-    <div class="timeline-item">
-      <div class="timeline-year">2025</div>
-      <h3>Professional Growth</h3>
-      <p>Internships, advanced certifications, and contributing to open source projects.</p>
-    </div>
+    <div class="timeline-item"><div class="timeline-year">2023</div><h3>Started Engineering Journey</h3><p>Began B.E in Computer Science at Nitte Meenakshi Institute of Technology. Gained foundational knowledge in programming and software development.</p></div>
+    <div class="timeline-item"><div class="timeline-year">2024</div><h3>First Projects & Learning</h3><p>Built KBC Quiz Game and Hospital Management System. Explored web development fundamentals. Joined IEEE and participated in technical workshops.</p></div>
+    <div class="timeline-item"><div class="timeline-year">2024</div><h3>Hackathons & Research</h3><p>Won OSCODE CHAMPIONSHIP TITLE, ODOO Hackathon finalist and dived into AI/ML technologies.</p></div>
+    <div class="timeline-item"><div class="timeline-year">2025</div><h3>Professional Growth</h3><p>Internships, advanced certifications, and contributing to open source projects.</p></div>
   </div>
 </section>
 
@@ -701,65 +718,59 @@
 <section id="contact">
   <h2 class="section-title">Get In Touch</h2>
   <div class="contact-grid">
-    <div class="contact-card">
-      <i class="fas fa-envelope contact-icon"></i>
-      <h3>Email</h3>
-      <p>siddugoranal540@gmail.com</p>
-      <a href="mailto:siddugoranal540@gmail.com" class="btn" style="margin-top: 1rem;">Send Email</a>
-    </div>
-    <div class="contact-card">
-      <i class="fab fa-github contact-icon"></i>
-      <h3>GitHub</h3>
-      <p>@siddaram2k25</p>
-      <a href="https://github.com/nmit-1NT23CS236" target="_blank" class="btn" style="margin-top: 1rem;">View Profile</a>
-    </div>
-    <div class="contact-card">
-      <i class="fab fa-linkedin contact-icon"></i>
-      <h3>LinkedIn</h3>
-      <p>Siddaram Goranal</p>
-      <a href="https://linkedin.com/in/siddaram-mallikarjun-goranal-7321182b9" target="_blank" class="btn" style="margin-top: 1rem;">Connect</a>
-    </div>
+    <div class="contact-card"><i class="fas fa-envelope contact-icon"></i><h3>Email</h3><p>siddugoranal540@gmail.com</p><a href="mailto:siddugoranal540@gmail.com" class="btn" style="margin-top: 1rem;">Send Email</a></div>
+    <div class="contact-card"><i class="fab fa-github contact-icon"></i><h3>GitHub</h3><p>@siddaram2k25</p><a href="https://github.com/nmit-1NT23CS236" target="_blank" class="btn" style="margin-top: 1rem;">View Profile</a></div>
+    <div class="contact-card"><i class="fab fa-linkedin contact-icon"></i><h3>LinkedIn</h3><p>Siddaram Goranal</p><a href="https://linkedin.com/in/siddaram-mallikarjun-goranal-7321182b9" target="_blank" class="btn" style="margin-top: 1rem;">Connect</a></div>
   </div>
 </section>
 
 <footer>
   <div class="footer-links">
-    <a href="#hero">About</a>
-    <a href="#skills">Skills</a>
-    <a href="#projects">Projects</a>
-    <a href="#certs">Certifications</a>
-    <a href="#journey">Journey</a>
-    <a href="#contact">Contact</a>
+    <a href="#hero">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a>
+    <a href="#certs">Certifications</a><a href="#journey">Journey</a><a href="#contact">Contact</a>
   </div>
   <p>© 2025 Siddaram Goranal. Crafted with ❤️ and ☕</p>
-  <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-    Always learning, always building, always growing.
-  </p>
+  <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">Always learning, always building, always growing.</p>
 </footer>
+
+<div id="toast" class="toast">✨ Opening project...</div>
 
 <script>
   // Theme Toggle
   function toggleTheme() {
     document.body.classList.toggle('light');
     const btn = document.querySelector('.toggle-btn');
-    const icon = btn.querySelector('i');
     if (document.body.classList.contains('light')) {
-      icon.className = 'fas fa-sun';
       btn.innerHTML = '<i class="fas fa-sun"></i> Theme';
     } else {
-      icon.className = 'fas fa-moon';
       btn.innerHTML = '<i class="fas fa-moon"></i> Theme';
     }
   }
 
+  // Toast notification system
+  function showToast(message, duration = 2000) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, duration);
+  }
+
+  // Enhanced click handling for project cards - shows toast on click
+  document.querySelectorAll('.project-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const projectName = this.querySelector('h3')?.innerText || 'Project';
+      showToast(`🚀 Opening ${projectName}...`, 1500);
+      // Link opens normally due to anchor tag, toast provides feedback
+    });
+  });
+
   // Header Scroll Effect
   window.addEventListener('scroll', () => {
     const header = document.getElementById('header');
-    if (window.scrollY > 100) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
+    if (window.scrollY > 100) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
   });
 
   // Smooth Scrolling
@@ -768,7 +779,10 @@
       e.preventDefault();
       const targetId = this.getAttribute('href');
       const targetSection = document.querySelector(targetId);
-      targetSection.scrollIntoView({ behavior: 'smooth' });
+      if (targetSection) {
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+        showToast(`📍 Navigating to ${this.innerText}`, 1200);
+      }
     });
   });
 
@@ -776,7 +790,6 @@
   window.addEventListener('scroll', () => {
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('nav a');
-    
     let current = '';
     sections.forEach(section => {
       const sectionTop = section.offsetTop;
@@ -785,7 +798,6 @@
         current = section.getAttribute('id');
       }
     });
-
     navLinks.forEach(link => {
       link.classList.remove('active');
       if (link.getAttribute('href') === `#${current}`) {
@@ -794,30 +806,33 @@
     });
   });
 
-  // Add loading animation
-  document.addEventListener('DOMContentLoaded', () => {
-    document.body.style.opacity = '0';
-    document.body.style.transition = 'opacity 0.5s ease';
-    setTimeout(() => {
-      document.body.style.opacity = '1';
-    }, 100);
-  });
-
-  // Ensure hero is positioned below the fixed header by setting --header-space dynamically
+  // Dynamic header space
   function syncHeaderSpace() {
     const header = document.getElementById('header');
-    if (!header) return;
-    const height = header.getBoundingClientRect().height;
-  // Add a larger extra gap to account for the image float so it can't reach the header
-  const extra = 28;
-    document.documentElement.style.setProperty('--header-space', `${height + extra}px`);
+    if (header) {
+      const height = header.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--header-space', `${height + 28}px`);
+    }
   }
-
-  // Run on load and resize
   window.addEventListener('load', syncHeaderSpace);
   window.addEventListener('resize', syncHeaderSpace);
-  // Run once after DOM ready
-  document.addEventListener('DOMContentLoaded', syncHeaderSpace);
+  document.addEventListener('DOMContentLoaded', () => {
+    syncHeaderSpace();
+    document.body.style.opacity = '0';
+    document.body.style.transition = 'opacity 0.5s ease';
+    setTimeout(() => document.body.style.opacity = '1', 100);
+    showToast('🎉 Welcome to my interactive portfolio!', 2500);
+  });
+
+  // Add hover animation hint for certification slides (clickable demo)
+  document.querySelectorAll('.slide').forEach(slide => {
+    slide.style.cursor = 'pointer';
+    slide.addEventListener('click', () => {
+      const certName = slide.querySelector('h3')?.innerText || 'Certification';
+      showToast(`📜 Viewing ${certName} details`, 1500);
+      // Optional: redirect to verification link if needed
+    });
+  });
 </script>
 
 </body>
